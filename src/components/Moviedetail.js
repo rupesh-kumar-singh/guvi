@@ -1,13 +1,23 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "@mui/material/Button";
+import React, { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate, useParams } from "react-router-dom";
-const Moviedetail = ({ movielist }) => {
+const Moviedetail = () => {
+  const [movie, setmovie] = useState({});
+
   const { id } = useParams();
-  console.log(useParams);
 
   const navigate = useNavigate();
-  const data = movielist[id];
+
+  const data = movie;
+  // console.log(movie);
+  useEffect(() => {
+    fetch(`https://6364a4ce8a3337d9a2fb22b2.mockapi.io/posts/${id}`)
+      .then((out) => out.json())
+      .then((res) => setmovie(res));
+  }, []);
+
   return (
     <div>
       <iframe
@@ -15,14 +25,14 @@ const Moviedetail = ({ movielist }) => {
         height="360"
         src={data.trailer}
         title="RRR Official Trailer (Hindi) India’s Biggest Action Drama | NTR,RamCharan,AjayD,AliaB | SS Rajamouli"
-        frameborder="0"
+        frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
+        allowFullScreen
       ></iframe>
       <div className="movie_container">
         <div className="main_list">
           <h2>{data.name}</h2>
-          <h3>⭐⭐{data.rating}</h3>
+          <h3>⭐{data.rating}</h3>
         </div>
         <h4>{data.summary}</h4>
         <IconButton

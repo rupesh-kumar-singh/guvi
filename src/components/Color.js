@@ -22,8 +22,8 @@ export const Addcolor = () => {
         button
       </button>
 
-      {colorlist.map((e) => (
-        <Cololist color={e} />
+      {colorlist.map((e, i) => (
+        <Cololist key={i} color={e} />
       ))}
     </div>
   );

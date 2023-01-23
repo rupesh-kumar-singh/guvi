@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
@@ -23,15 +23,32 @@ const formvalidationSchema = yup.object({
   trailer: yup.string().min(5).required("why not fill this state😄"),
 });
 
-const Addmovie = () => {
+const Editmovie = () => {
+  const [movie, setmovie] = useState(null);
+  const { id } = useParams();
+  console.log(id);
+
+  useEffect(() => {
+    fetch(`https://6364a4ce8a3337d9a2fb22b2.mockapi.io/posts/${id}`)
+      .then((out) => out.json())
+      .then((res) => setmovie(res));
+  }, [id]);
+
+  //   console.log(movie);
+  //   console.log(movie.name);
+  return movie ? <Editmovieform movie={movie} id={id} /> : <h2>loading....</h2>;
+};
+
+function Editmovieform({ movie, id }) {
+  const navigate = useNavigate();
   const { handleSubmit, handleBlur, values, touched, errors, handleChange } =
     useFormik({
       initialValues: {
-        name: "",
-        poster: "",
-        rating: "",
-        summary: "",
-        trailer: "",
+        name: movie.name,
+        poster: movie.poster,
+        rating: movie.rating,
+        summary: movie.summary,
+        trailer: movie.trailer,
       },
 
       validationSchema: formvalidationSchema,
@@ -40,11 +57,10 @@ const Addmovie = () => {
         outputdata(newmovie);
       },
     });
-  const navigate = useNavigate();
 
   const outputdata = (newmovie) => {
-    fetch(`https://6364a4ce8a3337d9a2fb22b2.mockapi.io/posts`, {
-      method: "POST",
+    fetch(`https://6364a4ce8a3337d9a2fb22b2.mockapi.io/posts/${id}`, {
+      method: "PUT",
       body: JSON.stringify(newmovie),
       headers: { "Content-Type": "application/json" },
     }).then(() => navigate(`/movies`));
@@ -124,12 +140,12 @@ const Addmovie = () => {
           />
 
           <Button type="submit" className="text" variant="contained">
-            Add movie
+            Edit movie
           </Button>
         </form>
       </div>
     </div>
   );
-};
+}
 
-export default Addmovie;
+export default Editmovie;

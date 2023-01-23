@@ -15,16 +15,16 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 
-const Movies = ({ out, id }) => {
+const Movies = ({ data, id, deletebutton, editbutton }) => {
   const [show, setshow] = useState(true);
 
   const navigate = useNavigate();
   return (
     <Card className="main_container">
-      <img className="img" src={out.poster} alt="mivie" />
+      <img className="img" src={data.poster} alt="mivie" />
       <CardContent>
         <div className="components">
-          <h2 className="icon">{out.name}</h2>
+          <h2 className="icon">{data.name}</h2>
           <span>
             <IconButton
               aria-label="toggle"
@@ -44,15 +44,16 @@ const Movies = ({ out, id }) => {
             </IconButton>
           </span>
         </div>
-        {show ? <h6>{out.summary}</h6> : null}
-        <h3 style={{ color: out.rating > 7 ? "green" : "red" }}>
-          ⭐⭐{out.rating}
+        {show ? <h6>{data.summary}</h6> : null}
+        <h3 style={{ color: data.rating > 7 ? "green" : "red" }}>
+          ⭐{data.rating}
         </h3>
       </CardContent>
 
-      <CardActions>
-        {" "}
+      <CardActions className="cardaction">
         <Counter />
+        {deletebutton}
+        {editbutton}
       </CardActions>
     </Card>
   );

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
-import MailIcon from "@mui/icons-material/Mail";
+import IconButton from "@mui/material/IconButton";
 const Counter = () => {
   let [likes, setlikes] = useState(0);
   let [dislikes, setdislikes] = useState(0);
@@ -10,7 +9,6 @@ const Counter = () => {
   function like() {
     likes = likes + 1;
     setlikes(likes);
-    console.log(likes);
   }
   function dislike() {
     setdislikes(dislikes + 1);
@@ -28,13 +26,11 @@ const Counter = () => {
     color: likes - dislikes > 10 ? "blue" : "black",
   };
 
-  const massage = {
-    display: likes - dislikes >= 10 ? "none" : "block",
-  };
   return (
     <div>
-      {likes - dislikes >= 10 ? <h4> awesome ❤️❤️</h4> : null}
-      <div className="counter">
+      {/* {likes - dislikes >= 10 ? <h4> awesome ❤️</h4> : null} */}
+
+      <div>
         <IconButton aria-label="like" onClick={like} style={likestyle}>
           <Badge badgeContent={likes} color="primary">
             👍
